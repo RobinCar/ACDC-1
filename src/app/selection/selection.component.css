@@ -1,0 +1,14 @@
+img{
+    width: 400px;
+    height: 400px;
+    margin:15px;
+    transition-property: width, height, margin;
+    transition-duration: 0.2s;
+    transition-delay: 0s;
+}
+
+img:hover{
+    width: 408px;
+    height: 408px;
+    margin: 11px;
+}
