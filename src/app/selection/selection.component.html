@@ -1,1 +1,1 @@
-<img *ngFor="let image of images" class="img-thumbnail" src="{{image}}"/>
+<img *ngFor="let image of images" class="img-thumbnail" src="{{image}}" (click)="onSelect(image)" />

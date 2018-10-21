@@ -1,3 +1,8 @@
-<p>
-  editor works!
-</p>
+<div id="editorDiv">
+    <a class="btn btn-secondary" [class.disabled]="undoLength==0" role="button" (click)="undo()">Undo</a>
+    <a class="btn btn-secondary" [class.disabled]="redoLength==0" role="button" (click)="redo()">Redo</a>
+    <a class="btn btn-secondary" [class.disabled]="undoLength==0" role="button" (click)="clear()">Clear</a>
+    <div>
+        <canvas #editorCanvas></canvas>
+    </div>
+</div>

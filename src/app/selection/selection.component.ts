@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Router } from "@angular/router";
+
 @Component({
   selector: 'app-selection',
   templateUrl: './selection.component.html',
@@ -7,17 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectionComponent implements OnInit {
 
-  images:string[] = [
-    "https://via.placeholder.com/1500x1500",
-    "https://via.placeholder.com/1400x1400",
-    "https://via.placeholder.com/1300x1300",
-    "https://via.placeholder.com/1200x1200",
-    "https://via.placeholder.com/1100x1100"
+  images: string[] = [
+    "https://via.placeholder.com/1920x1080",
+    "https://via.placeholder.com/640x360",
+    "https://via.placeholder.com/1024x576",
+    "https://via.placeholder.com/500x500",
+    "https://via.placeholder.com/1000x1000"
   ];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
+  onSelect(image: string) {
+    this.router.navigate(['/edit'], { queryParams: { path: image } });
+  }
 }
