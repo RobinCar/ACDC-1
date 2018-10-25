@@ -1,0 +1,12 @@
+Projet ACDC - Image médicale - GAONACH Maël
+
+----LOG 1----
+Tutoriel angular
+Mise en place du projet
+Développement de la page listant les images
+
+----LOG 2----
+Développement de la sélection d'une image
+
+----LOG 3----
+Développement de l'éditeur (partie fonctionnelle)
