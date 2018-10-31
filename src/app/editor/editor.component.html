@@ -1,8 +1,24 @@
-<div id="editorDiv">
-    <a class="btn btn-secondary" [class.disabled]="undoLength==0" role="button" (click)="undo()">Undo</a>
-    <a class="btn btn-secondary" [class.disabled]="redoLength==0" role="button" (click)="redo()">Redo</a>
-    <a class="btn btn-secondary" [class.disabled]="undoLength==0" role="button" (click)="clear()">Clear</a>
+<div id="editorDiv" class="text-center">
     <div>
         <canvas #editorCanvas></canvas>
     </div>
+    <div>
+        <a class="btn btn-dark" [class.disabled]="isSaved()" role="button" (click)="save()">Save</a>
+        <a class="btn btn-dark" [class.disabled]="isSaved()" role="button" (click)="modal.show()">Clear</a>
+        <a class="btn btn-dark" [class.disabled]="undoLength==0" role="button" (click)="undo()">Undo</a>
+        <a class="btn btn-dark" [class.disabled]="redoLength==0" role="button" (click)="redo()">Redo</a>
+    </div>
 </div>
+
+<app-modal #modal>
+    <div class="app-modal-header">
+        <h5>Are you sure you want to clear?</h5>
+    </div>
+    <div class="app-modal-body">
+        <p>All your work on this picture will be lost.</p>
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-default" (click)="modal.hide()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="clear();modal.hide()">Clear</button>
+    </div>
+</app-modal>

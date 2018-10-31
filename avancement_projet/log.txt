@@ -10,3 +10,6 @@ Développement de la sélection d'une image
 
 ----LOG 3----
 Développement de l'éditeur (partie fonctionnelle)
+
+----LOG 4----
+Développement de l'éditeur (partie fonctionnelle + visuelle)

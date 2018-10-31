@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -50,6 +50,8 @@ class Rectangle {
 })
 export class EditorComponent implements OnInit {
 
+  private static readonly LEFT_BTN = 0;
+
   //CANVAS
   @ViewChild('editorCanvas')
   private canvasRef: ElementRef;
@@ -99,8 +101,10 @@ export class EditorComponent implements OnInit {
   //DRAWING EVENTS
 
   private mouseDownAction(ev: MouseEvent) {
-    this.mouseIsDown = true;
-    this.startPoint = this.computeEventCoordinates(ev);
+    if (ev.button == EditorComponent.LEFT_BTN) {
+      this.mouseIsDown = true;
+      this.startPoint = this.computeEventCoordinates(ev);
+    }
   }
 
   private mouseMoveAction(ev: MouseEvent) {
@@ -117,7 +121,7 @@ export class EditorComponent implements OnInit {
   }
 
   private mouseUpAction(ev: MouseEvent) {
-    if (this.mouseIsDown) {
+    if (this.mouseIsDown && ev.button == EditorComponent.LEFT_BTN) {
       this.mouseIsDown = false;
       this.endPoint = this.computeEventCoordinates(ev);
       this.rebuild();
@@ -209,9 +213,28 @@ export class EditorComponent implements OnInit {
     }
   }
 
-  public clear(){
+  public clear() {
     this.undoList = new Array();
     this.drawImage();
+  }
+
+  public save() {
+
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.hasUnsavedData()) {
+      $event.returnValue = true;
+    }
+  }
+
+  public hasUnsavedData(): boolean {
+    return this.undoLength > 0;
+  }
+
+  public isSaved(): boolean {
+    return !this.hasUnsavedData();
   }
 
   public get redoLength(): number {
@@ -221,4 +244,5 @@ export class EditorComponent implements OnInit {
   public get undoLength(): number {
     return this.undoList.length;
   }
+  
 }

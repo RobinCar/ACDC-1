@@ -3,4 +3,9 @@ canvas {
     height: auto;
     border: 2px solid black;
 }
-
+a{
+    color:whitesmoke !important;
+}
+a.disabled{
+    color:gray !important;
+}
