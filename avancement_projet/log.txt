@@ -13,3 +13,6 @@ Développement de l'éditeur (partie fonctionnelle)
 
 ----LOG 4----
 Développement de l'éditeur (partie fonctionnelle + visuelle)
+
+----LOG 5----
+Pas d'avancement cette semaine
