@@ -1,3 +1,3 @@
 <div class="text-center">
-    <img *ngFor="let image of images" class="img-thumbnail" src="{{image}}" (click)="onSelect(image)" />
+    <img *ngFor="let image of images" class="img-thumbnail" src="{{image.src}}" (click)="onSelect(image)" />
 </div>

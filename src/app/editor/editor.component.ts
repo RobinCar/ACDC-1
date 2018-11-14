@@ -1,47 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-
-class Coordinates {
-
-  constructor(private _x: number, private _y: number) { }
-
-  public get x(): number {
-    return this._x;
-  }
-
-  public get y(): number {
-    return this._y;
-  }
-
-  public equals(c: Coordinates): boolean {
-    return Math.floor(this.x) == Math.floor(c.x) && Math.floor(this.y) == Math.floor(c.y);
-  }
-
-}
-
-class Rectangle {
-
-  constructor(private _p1: Coordinates, private _p2: Coordinates) { }
-
-  public get p1(): Coordinates {
-    return this._p1;
-  }
-
-  public get p2(): Coordinates {
-    return this._p2;
-  }
-
-  public equals(r: Rectangle): boolean {
-    return (
-      (this.p1.equals(r.p1) && this.p2.equals(r.p2))
-      ||
-      (this.p2.equals(r.p1) && this.p1.equals(r.p2))
-    );
-  }
-
-}
-
+import { Coordinates } from "../model/coordinates"
+import { Rectangle } from "../model/rectangle";
+import { ImageWithTHML } from "../model/image";
+import { ImageService } from '../imageService/image.service';
 
 @Component({
   selector: 'app-editor',
@@ -50,7 +13,7 @@ class Rectangle {
 })
 export class EditorComponent implements OnInit {
 
-  private static readonly LEFT_BTN = 0;
+  private static readonly MOUSE_LEFT_BTN = 0;
 
   //CANVAS
   @ViewChild('editorCanvas')
@@ -59,8 +22,7 @@ export class EditorComponent implements OnInit {
   private drawContext: CanvasRenderingContext2D;
 
   //IMAGE
-  private img: HTMLImageElement;
-  private path: string;
+  private image:ImageWithTHML;
 
   //DRAWING
   private mouseIsDown: boolean = false;
@@ -72,16 +34,18 @@ export class EditorComponent implements OnInit {
 
   //INIT METHODS
 
-  constructor(private route: ActivatedRoute, private location: Location, private router: Router) {
+  constructor(private route: ActivatedRoute, private location: Location, private router: Router, private imageService:ImageService) {
     this.route.queryParams.subscribe(params => {
-      this.path = params['path'];
+      let path = params['path'];
+      if(path != null){
+        this.image = imageService.getImage(path);
+      }else{
+        this.router.navigateByUrl("");
+      }
     });
   }
 
   ngOnInit() {
-    if (this.path == null) {
-      this.router.navigateByUrl("");
-    }
     this.initCanvas();
     this.initDrawing();
   }
@@ -101,7 +65,7 @@ export class EditorComponent implements OnInit {
   //DRAWING EVENTS
 
   private mouseDownAction(ev: MouseEvent) {
-    if (ev.button == EditorComponent.LEFT_BTN) {
+    if (ev.button == EditorComponent.MOUSE_LEFT_BTN) {
       this.mouseIsDown = true;
       this.startPoint = this.computeEventCoordinates(ev);
     }
@@ -121,7 +85,7 @@ export class EditorComponent implements OnInit {
   }
 
   private mouseUpAction(ev: MouseEvent) {
-    if (this.mouseIsDown && ev.button == EditorComponent.LEFT_BTN) {
+    if (this.mouseIsDown && ev.button == EditorComponent.MOUSE_LEFT_BTN) {
       this.mouseIsDown = false;
       this.endPoint = this.computeEventCoordinates(ev);
       this.rebuild();
@@ -139,11 +103,10 @@ export class EditorComponent implements OnInit {
   //DRAWING METHODS
 
   private drawImage() {
-    this.img = new Image();
-    this.img.src = this.path;
-    this.canvas.width = this.img.width;
-    this.canvas.height = this.img.height;
-    this.drawContext.drawImage(this.img, 0, 0);
+    this.image.clear();
+    this.canvas.width = this.image.width;
+    this.canvas.height = this.image.height;
+    this.drawContext.drawImage(this.image.htmlImageElement, 0, 0);
   }
 
   private createRectangle() {
@@ -215,11 +178,12 @@ export class EditorComponent implements OnInit {
 
   public clear() {
     this.undoList = new Array();
+    this.redoList = new Array();
     this.drawImage();
   }
 
   public save() {
-
+    this.imageService.save(this.image);
   }
 
   @HostListener('window:beforeunload', ['$event'])
