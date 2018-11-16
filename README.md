@@ -1,27 +1,27 @@
-# ACDCPart1
+# Projet ACDC - Imagerie médicale
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.4.
+## Angular
 
-## Development server
+Lancer le serveur de développement avec `ng serve`.
+Build : lancer `ng build`, avec l'option `--prod` pour la production.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Organisation du code
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Les composants
 
-## Build
+- SelectionComponent : Affiche une interface permettant de séléctionner une image à éditer parmis la liste de toutes les images.
+- EditorComponent : Appelé avec une image précisée dans l'url, affiche un éditeur permettant de dessiner des rectangles noir sur l'image.
+- ModalComponent : Permet de créer des fenêtres modales afin d'intéragir avec l'utilisateur.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Les services
 
-## Running unit tests
+- ImageService : (MOCK) Permet de récupèrer la liste des images, et de les sauvegarder.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Le module routing
 
-## Running end-to-end tests
+Les routes :
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- `/` et `/select` : SelectionComponent.
+- `edit?path=x` : EditorComponent, avec `x` l'image à éditer.
+    - CanDeactivateEditorGuard permet de demander une confirmation avant de quiter l'éditeur sans avoir sauvegardé.

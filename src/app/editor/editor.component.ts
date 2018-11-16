@@ -155,8 +155,6 @@ export class EditorComponent implements OnInit {
     this.drawContext.shadowBlur = 2;
     this.drawContext.strokeStyle = 'black';
     this.drawContext.stroke();
-    this.drawContext.stroke();
-    this.drawContext.stroke();
   }
 
   //GUI METHODS

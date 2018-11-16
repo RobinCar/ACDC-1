@@ -8,13 +8,10 @@ export class CanDeactivateEditorGuard implements CanDeactivate<EditorComponent> 
   canDeactivate(component: EditorComponent): boolean {
    
     if(component.hasUnsavedData()){
-        if (confirm("You have unsaved changes! If you leave, your changes will be lost.")) {
-            return true;
-        } else {
-            return false;
-        }
+        return confirm("You have unsaved changes! If you leave, your changes will be lost.");
     }else{
         return true;
     }
+    
   }
 }
