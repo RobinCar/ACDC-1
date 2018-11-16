@@ -17,11 +17,14 @@ Build : lancer `ng build`, avec l'option `--prod` pour la production.
 ## Les services
 
 - ImageService : (MOCK) Permet de récupèrer la liste des images, et de les sauvegarder.
+    - A faire :
+        - Remplacer le contenu de getImages() par un accès à Firebase pour récupérer la liste de toutes les images modifiables.
+        - Implémenter save() pour sauvegarder une image modifiée (image.htmlImageElement) vers Firebase.
 
 ## Le module routing
 
 Les routes :
 
-- `/` et `/select` : SelectionComponent.
+- `/` et `/select` : SelectionComgit ponent.
 - `edit?path=x` : EditorComponent, avec `x` l'image à éditer.
     - CanDeactivateEditorGuard permet de demander une confirmation avant de quiter l'éditeur sans avoir sauvegardé.
