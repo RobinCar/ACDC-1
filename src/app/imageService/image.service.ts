@@ -15,7 +15,6 @@ export class ImageService {
   }
 
   getImage(path:string){
-    //TODO Utiliser un ID plutôt que le chemin ici et dans le lien si présent dans firebase
     return new ImageWithTHML(path);
   }
 
