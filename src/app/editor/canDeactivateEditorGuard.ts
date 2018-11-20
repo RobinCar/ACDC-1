@@ -5,6 +5,9 @@ import { EditorComponent } from "./editor.component";
 @Injectable()
 export class CanDeactivateEditorGuard implements CanDeactivate<EditorComponent> {
 
+  /**
+   * Permet de demander confirmation avant de fermer un éditeur avec des données non sauvegardées
+   */
   canDeactivate(component: EditorComponent): boolean {
    
     if(component.hasUnsavedData()){

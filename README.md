@@ -5,6 +5,11 @@
 Lancer le serveur de développement avec `ng serve`.
 Build : lancer `ng build`, avec l'option `--prod` pour la production.
 
+## Documentation (Compodoc)
+
+- Installer compodoc : `sudo npm install -g @compodoc/compodoc`
+- Générer la documentation : `compodoc -p src/tsconfig.app.json`
+- Consulter la documentation : `compodoc src -s`
 
 ## Organisation du code
 
@@ -14,14 +19,14 @@ Build : lancer `ng build`, avec l'option `--prod` pour la production.
 - EditorComponent : Appelé avec une image précisée dans l'url, affiche un éditeur permettant de dessiner des rectangles noir sur l'image.
 - ModalComponent : Permet de créer des fenêtres modales afin d'intéragir avec l'utilisateur.
 
-## Les services
+### Les services
 
 - ImageService : (MOCK) Permet de récupèrer la liste des images, et de les sauvegarder.
     - A faire :
         - Remplacer le contenu de getImages() par un accès à Firebase pour récupérer la liste de toutes les images modifiables.
         - Implémenter save() pour sauvegarder une image modifiée (image.htmlImageElement) vers Firebase.
 
-## Le module routing
+### Le module routing
 
 Les routes :
 
