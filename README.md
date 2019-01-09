@@ -1,5 +1,9 @@
 # Projet ACDC - Imagerie médicale
 
+## Pour lancer le projet
+
+Avant tout il faut lancer la commande `npm install` à la racine du projet pour installer les modules nécessaires.
+
 ## Angular
 
 Lancer le serveur de développement avec `ng serve`.
@@ -16,7 +20,7 @@ Build : lancer `ng build`, avec l'option `--prod` pour la production.
 ### Les composants
 
 - SelectionComponent : Affiche une interface permettant de séléctionner une image à éditer parmis la liste de toutes les images.
-- EditorComponent : Appelé avec une image précisée dans l'url, affiche un éditeur permettant de dessiner des rectangles noir sur l'image.
+- EditorComponent : Appelé avec une image précisée dans l'url, affiche un éditeur permettant de dessiner des rectangles noir sur l'image, et permet de cacher automatiquement le texte dans l'image.
 - ModalComponent : Permet de créer des fenêtres modales afin d'intéragir avec l'utilisateur.
 
 ### Les services
