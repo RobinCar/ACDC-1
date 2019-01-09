@@ -51,6 +51,11 @@ export class ImageWithTHML{
         this.createHTMLElement();
     }
 
+    public setSrc(source: string) {
+        this.source = source;
+        this.createHTMLElement();
+    }
+
     /**
      * Crée l'objet HTML à partir de l'URL source
      */

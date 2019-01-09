@@ -5,7 +5,7 @@ import { Coordinates } from "../model/coordinates"
 import { Rectangle } from "../model/rectangle";
 import { ImageWithTHML } from "../model/image";
 import { ImageService } from '../imageService/image.service';
-
+import * as Tesseract from 'tesseract.js';
 
 /**
  * Composant permettant l'édition d'une image passée en paramètre dans l'url
@@ -65,6 +65,14 @@ export class EditorComponent implements OnInit {
    */
   private redoList: Rectangle[] = new Array();
 
+  /**
+   * Parametres pour utiliser tesseract
+   */
+  private TESSERACT_PARAMETERS = {
+    workerPath: 'https://cdn.jsdelivr.net/gh/naptha/tesseract.js@' + require('../../../node_modules/tesseract.js/package.json').version + '/dist/worker.min.js',
+    langPath: 'https://tessdata.projectnaptha.com/3.02/',
+    corePath: 'https://cdn.jsdelivr.net/gh/naptha/tesseract.js-core@0.1.0/index.js',
+  };
 
   //INIT METHODS
 
@@ -88,6 +96,52 @@ export class EditorComponent implements OnInit {
   ngOnInit() {
     this.initCanvas();
     this.initDrawing();
+  }
+
+/**
+ * Methode utilisant tesseract pour trouver le texte dans l'image
+ * @param hide 
+ */
+  public findText(hide: (results: { x0: number, y0: number, x1: number, y1: number }[]) => void) {
+    const tesseract: Tesseract.TesseractStatic = Tesseract.create(this.TESSERACT_PARAMETERS);
+
+    tesseract.recognize(this.image.htmlImageElement).then(function(result) {
+      let res: { x0: number, y0: number, x1: number, y1: number }[] = new Array();
+      result.words.forEach(element => {
+        if (element.confidence >= 60 && element.bbox.x1 - element.bbox.x0 > 10 && element.bbox.y1 - element.bbox.y0 > 10) {
+          res.push({ x0: element.bbox.x0, y0: element.bbox.y0, x1: element.bbox.x1, y1: element.bbox.y1 });
+        }
+      });
+      hide(res);
+    });
+
+  }
+
+  /**
+   * Methode appellee lorque l'on appuie sur le bouton "auto" pour cacher le texte
+   */
+  private hideText() {
+
+    this.findText(result => {
+      result.forEach(element => {
+        this.draw(element.x0, element.y0, element.x1, element.y1);
+      });
+    });
+
+  }
+
+  /**
+   * Permet de cacher une zone correspondant aux coordonnees en parametre
+   * @param x0 
+   * @param y0 
+   * @param x1 
+   * @param y1 
+   */
+  public draw(x0, y0, x1, y1) {
+    this.startPoint = new Coordinates(x0, y0);
+    this.endPoint = new Coordinates(x1, y1);
+    this.rebuild();
+    this.createRectangle();
   }
 
   /**
